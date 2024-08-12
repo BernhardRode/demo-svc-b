@@ -1,0 +1,25 @@
+# CICD Pipeline Build
+# on push, run a echo and then trigger workflow in bernhardrode/demo-iac
+
+name: CICD Pipeline Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo
+        run: echo "Hello, World!"
+
+      - name: Trigger Workflow
+        uses: bernhardrode/demo-iac@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: 'on-push.yaml'
+          branch: 'main'
+          inputs: '{"message": "Hello, World!"}'
